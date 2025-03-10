@@ -87,7 +87,7 @@ jobs:
                   path: requirements.txt
             - run: pwd
             - run: git status
-            - run: git fetch origin master
+            - run: git fetch origin master:master
             - run: git branch
             - run: git remote -v
             - run: git show master:aiosmtpd/__init__.py
