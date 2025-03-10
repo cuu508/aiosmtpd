@@ -83,6 +83,9 @@ jobs:
               uses: py-actions/py-dependency-install@v4
               with:
                   path: requirements.txt
+            - run: cwd
+            - run: git status
+            - run: git show master:aiosmtpd/__init__.py
             - name: Run unittests
               run: pytest
               env:
