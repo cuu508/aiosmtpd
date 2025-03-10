@@ -39,11 +39,11 @@ class TestVersion:
         """Ensure version is monotonically increasing"""
         reference = "master:aiosmtpd/__init__.py"
         cmd = f"git show {reference}".split()
-        try:
-            with capsys.disabled():
-                master_smtp = subprocess.check_output(cmd).decode()  # nosec
-        except subprocess.CalledProcessError:
-            pytest.skip("Skipping due to git error")
+        # try:
+        with capsys.disabled():
+            master_smtp = subprocess.check_output(cmd).decode()  # nosec
+        # except subprocess.CalledProcessError:
+        #     pytest.skip("Skipping due to git error")
 
         try:
             m = next(m for ln in master_smtp.splitlines() if (m := RE_DUNDERVER.match(ln)))
