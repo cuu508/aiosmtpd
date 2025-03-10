@@ -87,6 +87,8 @@ jobs:
                   path: requirements.txt
             - run: pwd
             - run: git status
+            - run: git branch
+            - run: git remote -v
             - run: git show master:aiosmtpd/__init__.py
             - name: Run unittests
               run: pytest
