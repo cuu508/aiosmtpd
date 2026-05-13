@@ -1590,7 +1590,6 @@ class TestSMTPWithController(_CommonMethods):
         finally:
             MAIL_LOG.setLevel(prev_level)
 
-
     @controller_data(decode_data=False)
     def test_data_line_too_long(self, plain_controller, client):
         self._helo(client)
