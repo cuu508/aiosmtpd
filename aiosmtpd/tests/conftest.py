@@ -47,7 +47,7 @@ handler_data = pytest.mark.handler_data
 
 
 class HostPort(NamedTuple):
-    host: str = "localhost"
+    host: str = "127.0.0.1"
     # port 0 means "pick a random unused port"
     port: int = 0
 
@@ -143,6 +143,7 @@ def get_controller(request: pytest.FixtureRequest) -> Callable[..., Controller]:
                 f"what class to use"
             )
         ip_port: HostPort = markerdata.pop("host_port", HostPort())
+        print("default ip_port:", ip_port)
         # server_kwargs takes precedence, so it's rightmost (PEP448)
         server_kwargs = {**markerdata, **server_kwargs}
         server_kwargs.setdefault("hostname", ip_port.host)
