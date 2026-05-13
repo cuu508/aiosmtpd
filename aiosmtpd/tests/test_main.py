@@ -143,7 +143,7 @@ def watcher_process(func):
     proc.join()
 
 def pick_random_port():
-    return random.randint(32768, 60999)
+    return random.randint(32768, 49152)
 
 # endregion
 
