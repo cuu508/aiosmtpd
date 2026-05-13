@@ -411,7 +411,7 @@ class InetMixin(BaseController, metaclass=ABCMeta):
         constructor, use `self.requested_hostname`.
 
         """
-        if self.server:
+        if isinstance(self.server, asyncio.Server):
             socket = self.server.sockets[0]
             addr = socket.getsockname()
             return addr[0]
@@ -436,7 +436,7 @@ class InetMixin(BaseController, metaclass=ABCMeta):
         constructor, use `self.requested_port`.
 
         """
-        if self.server:
+        if isinstance(self.server, asyncio.Server):
             socket = self.server.sockets[0]
             addr = socket.getsockname()
             return addr[1]
@@ -465,6 +465,7 @@ class InetMixin(BaseController, metaclass=ABCMeta):
         # addresses). In such case, it should be safe to connect to localhost)
         hostname = self.hostname or self._localhost
         with ExitStack() as stk:
+            assert self.port
             s = stk.enter_context(create_connection((hostname, self.port), 1.0))
             if self.ssl_context:
                 client_ctx = _server_to_client_ssl_ctx(self.ssl_context)
