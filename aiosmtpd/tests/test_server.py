@@ -478,9 +478,7 @@ class TestUnthreaded:
         with pytest.raises((socket.timeout, ConnectionError)):
             assert_smtp_socket(cont)
 
-    @pytest.mark.filterwarnings(
-        "ignore::pytest.PytestUnraisableExceptionWarning"
-    )
+    @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
     def test_inet_loopstop(self, autostop_loop, runner):
         """
         Verify behavior when the loop is stopped before controller is stopped
@@ -521,13 +519,20 @@ class TestUnthreaded:
         with pytest.raises((socket.timeout, ConnectionError)):
             SMTPClient(hostname, port, timeout=0.1)
         # Since the listening socket is closed, cont.port and cont.hostname should
-        # report None
-        assert cont.port is None
-        assert cont.hostname is None
+        # raise ConnectionError
+        with pytest.raises(
+            ConnectionError,
+            match="The server is currently not listening on any port",
+        ):
+            _ = cont.port
 
-    @pytest.mark.filterwarnings(
-        "ignore::pytest.PytestUnraisableExceptionWarning"
-    )
+        with pytest.raises(
+            ConnectionError,
+            match="The server is currently not listening on any port",
+        ):
+            _ = cont.hostname
+
+    @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
     def test_inet_contstop(self, temp_event_loop, runner):
         """
         Verify behavior when the controller is stopped before loop is stopped
@@ -565,9 +570,18 @@ class TestUnthreaded:
             with pytest.raises(expect_errs):
                 SMTPClient(hostname, port, timeout=0.1)
             # Since the listening socket is closed, cont.port and cont.hostname should
-            # report None
-            assert cont.port is None
-            assert cont.hostname is None
+            # raise ConnectionError
+            with pytest.raises(
+                ConnectionError,
+                match="The server is currently not listening on any port",
+            ):
+                _ = cont.port
+
+            with pytest.raises(
+                ConnectionError,
+                match="The server is currently not listening on any port",
+            ):
+                _ = cont.hostname
         finally:
             # Wrap up, or else we'll hang
             temp_event_loop.call_soon_threadsafe(cont.cancel_tasks)
