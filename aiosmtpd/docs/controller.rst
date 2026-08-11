@@ -500,7 +500,8 @@ Controller API
     :param hostname: Will be given to the event loop's :meth:`~asyncio.loop.create_server` method
        as the ``host`` parameter, with a slight processing (see below)
     :type hostname: Optional[str]
-    :param port: Will be passed-through to :meth:`~asyncio.loop.create_server` method
+    :param port: Will be passed-through to :meth:`~asyncio.loop.create_server` method.
+        If ``0``, a random unused (ephemeral) port will be selected.
     :type port: int
     :param ready_timeout: How long to wait until server starts.
         The :envvar:`AIOSMTPD_CONTROLLER_TIMEOUT` takes precedence over this parameter.
@@ -548,10 +549,43 @@ Controller API
     In addition to those provided by :class:`BaseController`,
     this class provides the following:
 
-    .. attribute:: hostname: str
-                   port: int
+    .. attribute:: hostname
+        :type: str
 
-        The values of the *hostname* and *port* arguments.
+        The *hostname* of the socket the server is listening on.
+
+        If the server is not running (because it has not been started yet, or has
+        already been stopped), accessing this attribute will raise
+        a :class:`RuntimeError`.
+
+        If an empty hostname parameter was passed to the controller's constuctor
+        then the server is running on all available interfaces, that may have
+        different hostnames. This property returns the hostname of the first listening
+        socket, but the order of listening sockets is not defined.
+
+        To access the hostname parameter that was passed in to this controller's
+        constructor, use :attr:`requested_hostname`.
+
+    .. attribute:: port
+        :type: int
+
+        The *port* of the socket the server is listening on.
+
+        If the server is not running (because it has not been started yet, or has
+        already been stopped), accessing this attribute will raise
+        a :class:`RuntimeError`.
+
+        If ``port=0`` was passed to the controller's constuctor then the server itself
+        picks a random unused port. This property will return the port that was picked.
+
+        If ``port=0`` *and* an empty hostname parameter was passed to the controller's
+        constuctor then the server is running on all available interfaces, and
+        on a different randomly chosen port on each. This property returns the
+        port of the first listening socket, but the order of listening sockets is
+        not defined.
+
+        To access the port parameter that was passed in to this controller's
+        constructor, use :attr:`requested_port`.
 
     .. attribute:: ready_timeout
         :type: float
@@ -568,6 +602,12 @@ Controller API
         so you don't have to wait too long for an exception, if problem arises.
 
         If this timeout is breached, a :class:`TimeoutError` exception will be raised.
+
+    .. attribute:: requested_hostname
+                   requested_port
+
+        The original *hostname* and *port* arguments that were passed to this
+        controller's constructor.
 
     |
     | :part:`Methods`
