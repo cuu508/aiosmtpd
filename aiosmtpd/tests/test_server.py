@@ -535,7 +535,9 @@ class TestUnthreaded:
         ):
             _ = cont.hostname
 
-    @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
+    @pytest.mark.filterwarnings(
+        "ignore::pytest.PytestUnraisableExceptionWarning"
+    )
     def test_inet_contstop(self, temp_event_loop, runner):
         """
         Verify behavior when the controller is stopped before loop is stopped
