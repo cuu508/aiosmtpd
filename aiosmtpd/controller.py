@@ -441,7 +441,7 @@ class InetMixin(BaseController, metaclass=ABCMeta):
         not defined.
 
         To access the port parameter that was passed in to controller's
-        constructor, use `self.requested_port`.
+        constructor, use ``self.requested_port``.
 
         """
 
