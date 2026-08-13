@@ -501,7 +501,8 @@ Controller API
        as the ``host`` parameter, with a slight processing (see below)
     :type hostname: Optional[str]
     :param port: Will be passed-through to :meth:`~asyncio.loop.create_server` method.
-        If ``0``, a random unused (ephemeral) port will be selected.
+        If ``0``, the OS kernel will select a random unused (ephemeral) port
+        when the server starts listening to the socket.
     :type port: int
     :param ready_timeout: How long to wait until server starts.
         The :envvar:`AIOSMTPD_CONTROLLER_TIMEOUT` takes precedence over this parameter.
