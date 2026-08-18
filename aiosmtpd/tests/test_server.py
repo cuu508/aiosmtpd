@@ -585,7 +585,7 @@ class TestUnthreaded:
         assert temp_event_loop.is_running() is False
         assert temp_event_loop.is_closed() is False
         # Since the listening socket is closed, cont.port and cont.hostname should
-        # raise ConnectionError
+        # raise RuntimeError
         with pytest.raises(
             RuntimeError,
             match=r"^The server is currently not listening to any socket$",
