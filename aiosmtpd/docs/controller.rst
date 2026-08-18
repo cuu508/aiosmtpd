@@ -557,7 +557,7 @@ Controller API
 
         If the server is not running (because it has not been started yet, or has
         already been stopped), accessing this attribute will raise
-        a :class:`RuntimeError`.
+        a :exc:`RuntimeError`.
 
         If an empty hostname parameter was passed to the controller's constuctor
         then the server is running on all available interfaces, that may have
@@ -574,7 +574,7 @@ Controller API
 
         If the server is not running (because it has not been started yet, or has
         already been stopped), accessing this attribute will raise
-        a :class:`RuntimeError`.
+        a :exc:`RuntimeError`.
 
         If ``port=0`` was passed to the controller's constuctor then the server itself
         picks a random unused port. This property will return the port that was picked.
