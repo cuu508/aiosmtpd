@@ -100,7 +100,7 @@ jobs:
         git fetch origin
         "${GITHUB_REPOSITORY_DEFAULT_BRANCH}:${GITHUB_REPOSITORY_DEFAULT_BRANCH}" 
     - name: Run unittests
-      run: pytest -n auto
+      run: pytest
       env:
         COLOR: 'yes'
     - run: python -m coverage xml
