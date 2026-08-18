@@ -481,7 +481,9 @@ class TestUnthreaded:
         with pytest.raises((socket.timeout, ConnectionError)):
             assert_smtp_socket(cont)
 
-    @pytest.mark.filterwarnings("ignore::pytest.PytestUnraisableExceptionWarning")
+    @pytest.mark.filterwarnings(
+        "ignore::pytest.PytestUnraisableExceptionWarning"
+    )
     def test_inet_loopstop(self, autostop_loop, runner):
         """
         Verify behavior when the loop is stopped before controller is stopped
