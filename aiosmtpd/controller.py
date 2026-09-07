@@ -457,9 +457,7 @@ class UnixSocketMixin(BaseController, metaclass=ABCMeta):  # pragma: no-unixsock
                 self._factory_invoker,
                 path=self.unix_socket,
                 ssl=self.ssl_context,
-                # Silence mypy warning as cleanup_socket is not yet annotated in
-                # typeshed: https://github.com/python/typeshed/issues/15742
-                cleanup_socket=False,  # type: ignore[call-arg]
+                cleanup_socket=False,
             )
 
         return self.loop.create_unix_server(
