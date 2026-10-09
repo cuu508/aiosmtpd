@@ -466,11 +466,8 @@ class InetMixin(BaseController, metaclass=ABCMeta):
         Context if necessary, and read some data from it to ensure that factory()
         gets invoked.
         """
-        # At this point, if self.hostname is Falsy, it most likely is "" (bind to all
-        # addresses). In such case, it should be safe to connect to localhost)
-        hostname = self.hostname or self._localhost
         with ExitStack() as stk:
-            s = stk.enter_context(create_connection((hostname, self.port), 1.0))
+            s = stk.enter_context(create_connection((self.hostname, self.port), 1.0))
             if self.ssl_context:
                 client_ctx = _server_to_client_ssl_ctx(self.ssl_context)
                 s = stk.enter_context(client_ctx.wrap_socket(s))
