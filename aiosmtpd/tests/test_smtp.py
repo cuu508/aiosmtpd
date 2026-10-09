@@ -92,11 +92,10 @@ class ErrorSMTP(Server):
 
 
 @pytest.fixture
-def _set_log_level_warning() -> None:
-    prev_level = MAIL_LOG.getEffectiveLevel()
-    MAIL_LOG.setLevel(logging.WARNING)
+def _unpropagated_mail_log() -> Generator[None, None, None]:
+    MAIL_LOG.propagate = False
     yield
-    MAIL_LOG.setLevel(prev_level)
+    MAIL_LOG.propagate = True
 
 
 # endregion
@@ -1572,11 +1571,12 @@ class TestSMTPWithController(_CommonMethods):
         assert resp == S.S250_OK
 
     @handler_data(class_=ReceivingHandler)
-    @pytest.mark.usefixtures('_set_log_level_warning')
+    @pytest.mark.usefixtures('_unpropagated_mail_log')
     def test_bad_encodings(self, decoding_authnotls_controller, client):
-        # _set_log_level_warning disables DEBUG logging temporarily to avoid badly
-        # encoded strings in the logs. Otherwise, running tests in parallel with
-        # pytest-xdist will blow up when trying to serialize the captured logs.
+        # Running this test in parallel with pytest-xdist will blow up when
+        # trying to serialize the captured logs that contain badly encoded strings.
+        # To avoid this, the _unpropagated_mail_log fixture prevents logs from
+        # being propagated to pytest's capture handler.
 
         handler: ReceivingHandler = decoding_authnotls_controller.handler
         self._helo(client)
