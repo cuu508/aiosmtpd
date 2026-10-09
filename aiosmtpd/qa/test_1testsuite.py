@@ -16,7 +16,6 @@ ENFORCE_ENHANCED_STATUS_CODES = False
 RE_ESC = re.compile(rb"(?P<digit1>\d)\.\d+\.\d+\s")
 
 
-
 STATUS_CODES = {
     k: v for k, v in vars(statuscodes.SMTP_STATUS_CODES).items() if k.startswith("S")
 }
